@@ -1,49 +1,68 @@
-const stopwatch = document.getElementById('stopwatch');
-const hours = document.getElementById('hours');
-const minutes = document.getElementById('minutes');
-const seconds = document.getElementById('seconds');
-const milliseconds = document.getElementById('milliseconds');
-
-let running = false;
+let seconds = 00;
+let tens = 00;
+let mins = 00;
+let getSeconds = document.querySelector('.seconds');
+let getTens = document.querySelector('.tens');
+let getMins = document.querySelector('.mins');
+let btnStart = document.querySelector('.btn-start');
+let btnStop = document.querySelector('.btn-stop');
+let btnReset = document.querySelector('.btn-reset');
 let interval;
-let elapsedTime = 0;
 
-function start() {
-  if (!running) {
-    interval = setInterval(() => {
-      elapsedTime++;
-      updateStopwatch();
-    }, 10);
-    running = true;
-  }
-}
-
-function stop() {
-  if (running) {
+btnStart.addEventListener('click', () => {
     clearInterval(interval);
-    running = false;
-  }
+    inverval = setInterval(startTimer, 10);
+})
+btnStop.addEventListener('click', () => {
+    clearInterval(inverval);
+})
+btnReset.addEventListener('click', () => {
+    clearInterval(inverval);
+    tens = '00';
+    seconds = '00';
+    mins = '00';
+    getSeconds.innerHTML = seconds;
+    getTens.innerHTML = tens;
+    getMins.innerHTML = mins;
+})
+
+function startTimer(){
+    tens++;
+    if(tens <= 9){
+        getTens.innerHTML = '0' + tens;
+    }
+    if(tens > 9){
+        getTens.innerHTML = tens;
+    }
+    if(tens > 99){
+        seconds++;
+        getSeconds.innerHTML = '0' + seconds;
+        tens = 0;
+        getTens.innerHTML = '0' + 0;
+    }
+    if(seconds > 9){
+        getSeconds.innerHTML = seconds;
+    }
+    if(seconds > 59){
+        mins++;
+        getMins.innerHTML = '0' + mins;
+        seconds = 0;
+        getSeconds.innerHTML = '0' + 0;
+    }
+    if(mins > 9){
+        getSeconds.innerHTML = mins;
+    }
 }
 
-function reset() {
-  stop();
-  elapsedTime = 0;
-  updateStopwatch();
-}
 
-function updateStopwatch() {
-  const time = new Date(elapsedTime);
-  hours.innerHTML = time.getUTCHours().toString().padStart(2, '0');
-  minutes.innerHTML = time.getUTCMinutes().toString().padStart(2, '0');
-  seconds.innerHTML = time.getUTCSeconds().toString().padStart(2, '0');
-  milliseconds.innerHTML = time.getUTCMilliseconds().toString().padStart(2, '0');
-}
 
-const startButton = document.getElementById('start');
-startButton.addEventListener('click', start);
 
-const stopButton = document.getElementById('stop');
-stopButton.addEventListener('click', stop);
 
-const resetButton = document.getElementById('reset');
-resetButton.addEventListener('click', reset);
+
+
+
+
+
+
+
+
